@@ -1,5 +1,28 @@
 apply plugin: 'java'
 version = '1.0'
-jar {
-	manifest.attributes("Main-Class": "com.tgeorge.challenges.Threenplusone")
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.8.2'
 }
+
+jar {
+	manifest.attributes("Main-Class": "com.tgeorge.challenges.Chapter1")
+}
+
+test {
+	testLogging.showStandardStreams = true
+	beforeTest { descriptor ->
+		logger.lifecycle("Running test: " + descriptor);
+	}
+	onOutput { descriptor, event ->
+		logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+	}
+}
+
+def localMavenRepo = 'file:///home/tom/.m2'
+repositories {
+	mavenCentral()
+	maven {url  localMavenRepo }
+}
+
